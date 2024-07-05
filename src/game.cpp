@@ -1,5 +1,6 @@
 #include "game.h"
 
+
 Game::Game() : isRunning(true) {
     std::string trackFile = "assets/track.txt";
     track.load(trackFile);
@@ -39,16 +40,15 @@ bool kbhit() {
     return select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv) > 0;
 }
 
-// Function to get all characters without waiting for Enter key
-std::vector<int> getAllChars() {
-    std::vector<int> chars;
-    while (kbhit()) {
-        unsigned char c;
-        if (read(STDIN_FILENO, &c, sizeof(c)) > 0) {
-            chars.push_back(c);
-        }
+// Function to get a character without waiting for Enter key
+int getch() {
+    int r;
+    unsigned char c;
+    if ((r = read(STDIN_FILENO, &c, sizeof(c))) < 0) {
+        return r;
+    } else {
+        return c;
     }
-    return chars;
 }
 
 void Game::run() {
@@ -65,28 +65,27 @@ void Game::run() {
         }
         update();
         render();
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     restoreCanonicalMode();
 }
 
 void Game::processInput() {
-    std::vector<int> chars = getAllChars();
-    bool steerLeft = false, steerRight = false, accelerate = false, brake = false;
-
-    for (int ch : chars) {
-        switch (ch) {
+    if (kbhit()) {
+        switch (getch()) {
             case 'a':
-                steerLeft = true;
+                car.steerLeft();
                 break;
             case 'd':
-                steerRight = true;
+                car.steerRight();
                 break;
             case 'w':
-                accelerate = true;
+                car.accelerate();
+                car.steerCenter();
                 break;
             case 's':
-                brake = true;
+                car.brake();
+                car.steerCenter();
                 break;
             case 'q':
                 isRunning = false;
@@ -96,25 +95,15 @@ void Game::processInput() {
                 break;
         }
     }
-
-    if (steerLeft) {
-        car.steerLeft();
-    }
-    if (steerRight) {
-        car.steerRight();
-    }
-    if (accelerate) {
-        car.accelerate();
-    }
-    if (brake) {
-        car.brake();
-    }
 }
 
 void Game::update() {
     car.update(track);
 }
 
+
 void Game::render() {
     renderer.draw(car, track);
 }
+
+
