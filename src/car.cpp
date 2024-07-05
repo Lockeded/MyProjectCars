@@ -1,12 +1,12 @@
 #include "car.h"
 #include "utils.h"
 
-Car::Car() : positionX(10),positionY(0),direction(0),speed(0),acceleration(0),carHeight(5),carWidth(20) {}
+Car::Car() : positionX(10),positionY(0),direction(0),speed(0),acceleration(0) {}
 
 void Car::update(Track track) {
     positionX += direction;
-    if (positionX < 0) positionX = 0;
-    if (positionX > track.getTrackWidth() - carWidth) positionX = track.getTrackWidth() - carWidth;
+    if (positionX < 5+carWidth/2) positionX = 5+carWidth/2;
+    if (positionX > track.getTrackWidth() - carWidth/2 -1 ) positionX = track.getTrackWidth() - carWidth/2 -1;
     positionY += speed;
     if (positionY > track.getTrackHeight() - carHeight) positionY = track.getTrackHeight() - carHeight;
     speed+=acceleration;
@@ -60,4 +60,6 @@ int Car::getMaxSpeed() const {
 
 void Car::loadCar(std::string filename){
     model = readFile(filename);
+    carHeight = model.size();
+    carWidth = model[0].size();
 }

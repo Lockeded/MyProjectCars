@@ -53,19 +53,12 @@ int getch() {
 
 void Game::run() {
     setNonCanonicalMode();
-    auto lastInputTime = std::chrono::system_clock::now();
-    auto inputInterval = std::chrono::milliseconds(100);
 
     while (isRunning) {
-        auto currentTime = std::chrono::system_clock::now();
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastInputTime);
-        if (deltaTime >= inputInterval) {
-            processInput();
-            lastInputTime = currentTime;
-        }
+        processInput();
         update();
         render();
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
     restoreCanonicalMode();
 }
