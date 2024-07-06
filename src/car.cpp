@@ -1,17 +1,15 @@
 #include "car.h"
 #include "utils.h"
 
-Car::Car() : positionX(10),positionY(0),direction(0),speed(0),acceleration(0) {}
+Car::Car() : positionX(25),positionY(0),direction(0),speed(0),acceleration(0) {}
 
 void Car::update(Track track) {
     positionX += direction;
-    if (positionX < 5+carWidth/2) positionX = 5+carWidth/2;
-    if (positionX > track.getTrackWidth() - carWidth/2 -1 ) positionX = track.getTrackWidth() - carWidth/2 -1;
-    positionY += speed;
+    if (positionX < 10 + carWidth/2) positionX = 10 + carWidth/2;
+    if (positionX > track.getTrackWidth() - carWidth/2 -2 ) positionX = track.getTrackWidth() - carWidth/2 -2;
+    positionY += acceleration;
     if (positionY > track.getTrackHeight() - carHeight) positionY = track.getTrackHeight() - carHeight;
-    speed+=acceleration;
-    if(speed>maxSpeed) speed = maxSpeed;
-    if(speed<0) speed = 0; //未实现倒车功能
+    if (positionY < 0) positionY = 0;
 }
 
 void Car::steerLeft() {
@@ -27,11 +25,11 @@ void Car::steerRight() {
 }
 
 void Car::accelerate() {
-    acceleration += 1;
+    acceleration = 1;
 }
 
 void Car::brake() {
-    acceleration -= 1;
+    acceleration = -1;
 }
 
 int Car::getPositionX() const {

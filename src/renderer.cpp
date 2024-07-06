@@ -15,14 +15,18 @@ void Renderer::draw(const Car &car, const Track &track) {
     int trackWidth = track.getTrackWidth();
     int trackHeight = track.getTrackHeight();
 
-    for (int i = 0; i < trackHeight - carHeight; i++) {
+    for (int i = 0; i < trackHeight - carHeight - carY; i++) {
         std::cout << segments[i] << std::endl;
     }
 
     for (int i = 0; i < carHeight; i++) {
-        std::string leftSegment = segments[i+trackHeight - carHeight].substr(0, carX - carWidth/2);
-        std::string rightSegment = segments[i+trackHeight - carHeight].substr(carX + carWidth/2 + 1);
+        std::string leftSegment = segments[i+trackHeight - carHeight - carY].substr(0, carX - carWidth/2);
+        std::string rightSegment = segments[i+trackHeight - carHeight -carY].substr(carX + carWidth/2 + 1);
         std::cout << leftSegment << model[i] << rightSegment << std::endl;
+    }
+
+    for (int i = trackHeight - carY; i < trackHeight; i++) {
+        std::cout << segments[i] << std::endl;
     }
 }
 

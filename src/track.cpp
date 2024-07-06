@@ -6,7 +6,7 @@ Track::Track() {}
 void Track::load(std::string filename){
     segments = readFile(filename);
     trackHeight = segments.size();
-    trackWidth = segments[4].size();
+    trackWidth = segments[0].size();
 }
 
 std::string Track::getSegment(int index) const {
