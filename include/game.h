@@ -10,6 +10,8 @@
 #include "track.h"
 #include "car.h"
 #include "utils.h"
+#include "player.h"
+#include "monster.h"
 
 class Game {
 public:
@@ -19,10 +21,13 @@ private:
     void processInput();
     void update();
     void render();
+    void openingScene();
 
     Renderer renderer;
     Track track;
     Car car;
+    Player player;
+    Monster monster;
     bool isRunning;
 };
 #endif // GAME_H

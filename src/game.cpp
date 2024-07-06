@@ -7,6 +7,9 @@ Game::Game() : isRunning(true) {
     
     std::string carFile = "assets/car.txt";
     car.loadCar(carFile); // 假设 Car 类有一个用于加载车辆数据的函数 loadCar()
+
+    std::string monsterFile = "assets/monster.txt";
+    monster.loadMonster(monsterFile); // 假设 Monster 类有一个用于加载怪物数据的函数 loadMonster()
 }
 
 // Function to set terminal to non-canonical mode
@@ -53,13 +56,14 @@ int getch() {
 
 void Game::run() {
     setNonCanonicalMode();
-
+    openingScene();
     while (isRunning) {
         processInput();
         update();
         render();
         std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
+    renderer.clearScreen();
     restoreCanonicalMode();
 }
 
@@ -99,4 +103,6 @@ void Game::render() {
     renderer.draw(car, track);
 }
 
-
+void Game::openingScene() {
+    renderer.renderOpeningScene();
+}

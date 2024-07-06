@@ -1,6 +1,7 @@
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Iinclude -g
+LDFLAGS = -lncurses
 
 # Directories
 SRCDIR = src
@@ -16,7 +17,7 @@ TARGET = $(BINDIR)/mygame
 all: $(TARGET)
 
 $(TARGET): $(OBJS) | $(BINDIR)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@

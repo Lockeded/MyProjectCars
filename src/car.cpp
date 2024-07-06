@@ -4,16 +4,14 @@
 Car::Car() : positionX(25),positionY(0),direction(0),speed(0),acceleration(0) {}
 
 void Car::update(Track track) {
-    positionX += direction;
-    if (positionX < 10 + carWidth/2) positionX = 10 + carWidth/2;
-    if (positionX > track.getTrackWidth() - carWidth/2 -2 ) positionX = track.getTrackWidth() - carWidth/2 -2;
-    positionY += acceleration;
+    if (positionX < 15 + carWidth/2) positionX = 15 + carWidth/2;
+    if (positionX > track.getTrackWidth() - carWidth/2 -15) positionX = track.getTrackWidth() - carWidth/2 -15;
     if (positionY > track.getTrackHeight() - carHeight) positionY = track.getTrackHeight() - carHeight;
     if (positionY < 0) positionY = 0;
 }
 
 void Car::steerLeft() {
-    direction = -1;
+    positionX += -1;
 }
 
 void Car::steerCenter() {
@@ -21,15 +19,15 @@ void Car::steerCenter() {
 }
 
 void Car::steerRight() {
-    direction = 1;
+    positionX += 1;
 }
 
 void Car::accelerate() {
-    acceleration = 1;
+    positionY += 1;
 }
 
 void Car::brake() {
-    acceleration = -1;
+    positionY += -1;
 }
 
 int Car::getPositionX() const {
